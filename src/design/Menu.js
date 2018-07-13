@@ -6,11 +6,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import MediasPanel from './medias/MediasPanel';
-import MessagesPanel from './messages/MessagesPanel';
-import CategoriesPanel from './categories/CategoriesPanel';
-import AssetsPanel from './assets/AssetsPanel';
-import TagsPanel from './tags/TagsPanel';
+import MediasPanel from '../medias/MediasPanel';
+import CategoriesPanel from '../categories/CategoriesPanel';
+import AssetsPanel from '../assets/AssetsPanel';
+import TagsPanel from '../tags/TagsPanel';
 
 function TabContainer(props) {
     return (
@@ -49,7 +48,6 @@ class SimpleTabs extends React.Component {
                 <AppBar position="static">
                     <Tabs value={value} onChange={this.handleChange}>
                         <Tab label="Medias" />
-                        <Tab label="Messages" />
                         <Tab label="Categories"/>
                         <Tab label="Assets"/>
                         <Tab label="Tags"/>
@@ -57,10 +55,9 @@ class SimpleTabs extends React.Component {
                 </AppBar>
                 <TabContainer>
                 {value === 0 && <MediasPanel/>}
-                {value === 1 && <MessagesPanel/>}
-                {value === 2 && <CategoriesPanel/>}
-                {value === 3 && <AssetsPanel/>}
-                {value === 4 && <TagsPanel/>}
+                {value === 1 && <CategoriesPanel/>}
+                {value === 2 && <AssetsPanel/>}
+                {value === 3 && <TagsPanel/>}
                 </TabContainer>
             </div>
         );
