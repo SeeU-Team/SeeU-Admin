@@ -11,6 +11,7 @@ import CategoriesPanel from '../categories/CategoriesPanel';
 import AssetsPanel from '../assets/AssetsPanel';
 import TagsPanel from '../tags/TagsPanel';
 import AdminPanel from '../admin/AdminPanel';
+import ResetPanel from '../admin/ResetPanel';
 
 function TabContainer(props) {
     return (
@@ -52,6 +53,7 @@ class SimpleTabs extends React.Component {
                         <Tab label="Categories"/>
                         <Tab label="Assets"/>
                         <Tab label="Tags"/>
+                        <Tab label="Reset"/>
                         <Tab label="Admin"/>
                     </Tabs>
                 </AppBar>
@@ -60,7 +62,8 @@ class SimpleTabs extends React.Component {
                 {value === 1 && <CategoriesPanel/>}
                 {value === 2 && <AssetsPanel/>}
                 {value === 3 && <TagsPanel/>}
-                {value === 4 && <AdminPanel/>}
+                {value === 4 && <ResetPanel/>}
+                {value === 5 && <AdminPanel/>}
                 </TabContainer>
             </div>
         );
