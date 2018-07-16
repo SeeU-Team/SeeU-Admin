@@ -8,8 +8,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #2e3c82;
+  height: 100px;
   padding: 20px;
   color: white;
 }
@@ -27,6 +27,15 @@
   to { transform: rotate(360deg); }
 }
 
-.CenterAligned {
+.HorizontalCentered {
   text-align: center;
+}
+
+.VerticalCentered {
+  transform: translateY(-50%);
+  margin-top: 40vh;
+}
+
+.NormalMargin {
+  margin: 15px;
 }

@@ -2,7 +2,7 @@
  * Created by Vincent on 13/07/2018.
  */
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router';
 import history from './History';
 import Login from '../authentication/Login';
 import Logout from '../authentication/Logout';
@@ -13,11 +13,12 @@ class Routes extends React.Component {
     render() {
         return (
             <Router history={history}>
-                <div>
+                <Switch>
+                    <Route path="/" component={requireAuth(App)} exact={true} />
                     <Route path="/login" component={Login} />
                     <Route path="/logout" component={requireAuth(Logout)} />
                     <Route path="/app" component={requireAuth(App)} />
-                </div>
+                </Switch>
             </Router>
         );
     }

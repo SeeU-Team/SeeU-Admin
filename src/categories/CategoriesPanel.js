@@ -7,7 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Grid from '@material-ui/core/Grid';
+import { API_URL } from '../constants';
 
 class CategoriesPanel extends React.Component {
 
@@ -15,7 +18,8 @@ class CategoriesPanel extends React.Component {
         super(props);
         this.state = {
             categories : [],
-            newCategory : ""
+            newCategory : "",
+            filterCategory: ""
         };
 
         this.getAll = this.getAll.bind(this);
@@ -30,27 +34,50 @@ class CategoriesPanel extends React.Component {
             <div>
                 <MuiThemeProvider>
                     <div>
+                        <Grid container spacing={8}>
+                            <Grid item xs={2}>
+                                <TextField
+                                    className          = "NormalMargin"
+                                    hintText           = "Search a category"
+                                    floatingLabelText  = "Search"
+                                    onChange           = {(event,newValue) => this.setState({filterCategory:newValue})}
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                            </Grid>
+                            <Grid item xs>
+                                <TextField
+                                    className          = "NormalMargin"
+                                    hintText           = "Enter a new category"
+                                    floatingLabelText  = "New category"
+                                    onChange           = {(event,newValue) => this.setState({newCategory:newValue})}
+                                />
+                                <RaisedButton className="NormalMargin" label="Add" primary={true}  onClick={(event) => this.addNewCategory(event)}/>
+                            </Grid>
+                        </Grid>
                         <List>
                             {
-                                this.state.categories.map(function(object) {
-                                    return (<ListItem key={object.id}>
-                                                <ListItemText primary={object.name} secondary={object.id}/>
-                                                <ListItemSecondaryAction>
-                                                    <IconButton aria-label="Delete" onClick={() => this.deleteAt(object.id)}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>)
+                                this.state.categories &&
+                                this.state.categories
+                                    .filter((category) => category.name.toLowerCase().indexOf(this.state.filterCategory.toLowerCase()) > -1)
+                                    .map(function(category, index) {
+                                    return (
+                                        <div key={index}>
+                                            <ListItem>
+                                                    <ListItemText primary={category.name} secondary={category.id}/>
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton aria-label="Delete" onClick={() => this.deleteAt(category.id)}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
                                             </ListItem>
-                                            )
+                                            <Divider />
+                                        </div>
+
+                                    )
                                 }, this)
                             }
                         </List>
-                        <TextField
-                            hintText="Enter a new category"
-                            floatingLabelText="New category"
-                            onChange = {(event,newValue) => this.setState({newCategory:newValue})}
-                        />
-                        <RaisedButton label="Submit" primary={true}  onClick={(event) => this.addNewCategory(event)}/>
                     </div>
                 </MuiThemeProvider>
             </div>
@@ -58,10 +85,10 @@ class CategoriesPanel extends React.Component {
     }
 
     getAll(){
-        var API_URL = "http://192.168.2.200:8001/api/medias/categories";
+        var URL = API_URL + "api/medias/categories";
         let self = this;
 
-        fetch(API_URL, {
+        fetch(URL, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -86,10 +113,9 @@ class CategoriesPanel extends React.Component {
             categories : this.state.categories.filter(item => item.id != id)
         });
 
-        var API_URL = "http://192.168.2.200:8001/api/medias/categories/";
-        let self = this;
+        var URL = API_URL + "api/medias/categories/" + id;
 
-        fetch(API_URL + id, {
+        fetch(URL , {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -100,10 +126,10 @@ class CategoriesPanel extends React.Component {
     }
 
     addNewCategory(event){
-        var API_URL = "http://192.168.2.200:8001/api/medias/categories";
+        var URL = API_URL + "api/medias/categories";
         var self = this;
 
-        fetch(API_URL, {
+        fetch(URL, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

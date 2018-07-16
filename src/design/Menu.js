@@ -10,6 +10,7 @@ import MediasPanel from '../medias/MediasPanel';
 import CategoriesPanel from '../categories/CategoriesPanel';
 import AssetsPanel from '../assets/AssetsPanel';
 import TagsPanel from '../tags/TagsPanel';
+import AdminPanel from '../admin/AdminPanel';
 
 function TabContainer(props) {
     return (
@@ -51,6 +52,7 @@ class SimpleTabs extends React.Component {
                         <Tab label="Categories"/>
                         <Tab label="Assets"/>
                         <Tab label="Tags"/>
+                        <Tab label="Admin"/>
                     </Tabs>
                 </AppBar>
                 <TabContainer>
@@ -58,6 +60,7 @@ class SimpleTabs extends React.Component {
                 {value === 1 && <CategoriesPanel/>}
                 {value === 2 && <AssetsPanel/>}
                 {value === 3 && <TagsPanel/>}
+                {value === 4 && <AdminPanel/>}
                 </TabContainer>
             </div>
         );

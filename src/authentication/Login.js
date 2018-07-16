@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import history from '../route/History';
+import { API_URL } from '../constants';
 
 class Login extends React.Component {
     constructor(props){
@@ -16,32 +17,39 @@ class Login extends React.Component {
         }
     }
 
+    componentWillMount(){
+        if(localStorage.getItem("token") != null)
+            history.push("/app");
+    }
+
     render() {
         return (
             <div>
                 <MuiThemeProvider>
-                    <div className="CenterAligned">
+                    <div className="HorizontalCentered">
                         <AppBar
                             title="SeeU Administration Portal"
                         />
-                        <TextField
-                            hintText="Enter your Username"
-                            floatingLabelText="Username"
-                            onChange = {(event,newValue) => this.setState({email:newValue})}
-                        />
-                        <br/>
-                        <TextField
-                            type="password"
-                            hintText="Enter your Password"
-                            floatingLabelText="Password"
-                            onChange = {(event,newValue) => this.setState({password:newValue})}
-                        />
-                        <br/>
-                        <RaisedButton label="Submit" primary={true}  onClick={(event) => this.handleClick(event)}/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        { this.state.loading && <CircularProgress thickness={7} />}
+                        <div className="VerticalCentered">
+                            <TextField
+                                hintText="Enter your Username"
+                                floatingLabelText="Username"
+                                onChange = {(event,newValue) => this.setState({email:newValue})}
+                            />
+                            <br/>
+                            <TextField
+                                type="password"
+                                hintText="Enter your Password"
+                                floatingLabelText="Password"
+                                onChange = {(event,newValue) => this.setState({password:newValue})}
+                            />
+                            <br/>
+                            <RaisedButton label="Submit" primary={true}  onClick={(event) => this.handleClick(event)}/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            { this.state.loading && <CircularProgress thickness={7} />}
+                        </div>
                     </div>
                 </MuiThemeProvider>
             </div>
@@ -49,14 +57,14 @@ class Login extends React.Component {
     }
 
     handleClick(event){
-        var API_URL = "http://192.168.2.200:8001/login/admin";
+        var URL = API_URL + "login/admin";
         var self = this;
 
         this.setState({
             loading : true,
         });
 
-        fetch(API_URL, {
+        fetch(URL, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -67,7 +75,10 @@ class Login extends React.Component {
                 password: self.state.password
             })
         }).then(function(response) {
-                return (response.status === 200) ? response : response.json();
+            self.setState({
+                loading : false,
+            });
+            return (response.status === 200) ? response : response.json();
         }).then(function(response) {
             if(response.status === 200){
 
@@ -89,6 +100,9 @@ class Login extends React.Component {
             }
         })
         .catch(function (error) {
+            self.setState({
+                loading : false,
+            });
             console.log(error);
         });
     }
