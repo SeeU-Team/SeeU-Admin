@@ -63,7 +63,7 @@ class ResetPanel extends React.Component {
     }
 
     handleClick(event){
-        var URL = API_URL + "admin/reset";
+        var URL = API_URL + "api/teams/admin/reset";
 
         fetch(URL, {
             method: 'DELETE',
